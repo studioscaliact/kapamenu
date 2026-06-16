@@ -57,12 +57,16 @@
             object-fit: contain;
         }
 
-        /* --- HEADER CON IMMAGINE DI SFONDO COMPLETA --- */
+        /* --- HEADER CON IMMAGINE DI SFONDO COMPLETA CORRETTA --- */
         .hero {
-            background: url('sfondocapannine.jpeg') center center / contain no-repeat;
-            height: auto; 
-            aspect-ratio: 16 / 9; /* Mantieni le proporzioni originali dell'immagine */
+            background-image: url('sfondocapannine.jpeg');
+            background-position: center center;
+            background-size: contain;
+            background-repeat: no-repeat;
             width: 100%;
+            /* Utilizziamo 56.25vw che corrisponde esattamente al formato 16:9 su mobile (9 / 16 * 100) */
+            height: 56.25vw; 
+            max-height: 350px; /* Evita che su computer diventi gigantesco */
             position: relative;
             background-color: #f8fafc;
         }
@@ -222,6 +226,7 @@
         <span>Powered by <a href="https://www.studio-scalia.it" target="_blank">www.studio-scalia.it</a></span>
     </div>
 
+    <!-- Il contenitore adesso ha l'altezza forzata via CSS -->
     <div class="hero"></div>
 
     <div class="menu-container">
@@ -316,20 +321,17 @@
             const closeAdX = document.getElementById('closeAdX');
             const closeAdBtn = document.getElementById('closeAdBtn');
 
-            // Funzione per mostrare il popup
             function showAd() {
                 adOverlay.classList.add('show');
             }
 
-            // Funzione per nascondere il popup
             function closeAd() {
                 adOverlay.classList.remove('show');
             }
 
-            // Avvia il timer di 20 secondi (20000 millisecondi)
+            // Il timer da 20 secondi è attivo e si resetta ad ogni avvio
             setTimeout(showAd, 20000);
 
-            // Chiudi quando si clicca sulla X o sul bottone arancione
             closeAdX.addEventListener('click', closeAd);
             closeAdBtn.addEventListener('click', closeAd);
         });
