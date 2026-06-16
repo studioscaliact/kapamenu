@@ -57,18 +57,20 @@
             object-fit: contain;
         }
 
-        /* --- HEADER CON IMMAGINE DI SFONDO COMPLETA CORRETTA --- */
-        .hero {
-            background-image: url('sfondocapannine.jpeg');
-            background-position: center center;
-            background-size: contain;
-            background-repeat: no-repeat;
+        /* --- CONTENITORE PER L'IMMAGINE DI TESTATA --- */
+        .hero-container {
             width: 100%;
-            /* Utilizziamo 56.25vw che corrisponde esattamente al formato 16:9 su mobile (9 / 16 * 100) */
-            height: 56.25vw; 
-            max-height: 350px; /* Evita che su computer diventi gigantesco */
-            position: relative;
+            max-width: 600px; /* Si allinea perfettamente alla larghezza del menu */
+            margin: 0 auto;
+            display: block;
             background-color: #f8fafc;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
         }
 
         /* --- CATEGORIE E PRODOTTI --- */
@@ -133,24 +135,23 @@
             padding-top: 4px;
         }
 
-        /* --- POPUP SCHERMO INTERO (AD BANNER) --- */
+        /* --- POPUP SCHERMO INTERO (AD BANNER STILE STUDIO SCALIA) --- */
         .fullscreen-ad-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(15, 23, 42, 0.95); /* Sfondo scuro semitrasparente */
+            background-color: rgba(15, 23, 42, 0.95);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 100000; /* Sopra la barra fissa */
+            z-index: 100000;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease-in-out;
         }
 
-        /* Quando il popup è attivo */
         .fullscreen-ad-overlay.show {
             opacity: 1;
             pointer-events: auto;
@@ -159,11 +160,10 @@
         .ad-wrapper {
             position: relative;
             width: 90%;
-            max-width: 450px; /* Ottimale per smartphone e tablet */
+            max-width: 450px;
             text-align: center;
         }
 
-        /* Tasto di chiusura a X in alto a destra */
         .close-ad-btn {
             position: absolute;
             top: -40px;
@@ -180,17 +180,39 @@
             color: #ff9f1c;
         }
 
-        /* Immagine del Banner Pubblicitario */
-        .ad-image {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
+        /* Box bianco interno per contenere logo e dicitura */
+        .ad-box-content {
+            background-color: #ffffff;
+            padding: 35px 25px;
+            border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            display: block;
+            text-decoration: none; /* Rimuove la sottolineatura dal link */
+            transition: transform 0.2s;
         }
 
-        /* Pulsante alternativo per chiudere e tornare al menu */
+        .ad-box-content:hover {
+            transform: scale(1.02);
+        }
+
+        /* Immagine del logo dentro il popup */
+        .ad-logo-image {
+            max-width: 80%;
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+            margin-bottom: 25px;
+        }
+
+        /* Testo della dicitura pubblicitaria */
+        .ad-text-callout {
+            font-size: 18px;
+            font-weight: 600;
+            color: #005088; /* Blu istituzionale Studio Scalia */
+            line-height: 1.5;
+        }
+
         .back-to-menu-btn {
             background-color: #ff9f1c;
             color: #ffffff;
@@ -226,8 +248,9 @@
         <span>Powered by <a href="https://www.studio-scalia.it" target="_blank">www.studio-scalia.it</a></span>
     </div>
 
-    <!-- Il contenitore adesso ha l'altezza forzata via CSS -->
-    <div class="hero"></div>
+    <div class="hero-container">
+        <img src="sfondocapannine.jpeg" alt="Kapa Beach Testata" class="hero-image">
+    </div>
 
     <div class="menu-container">
 
@@ -303,8 +326,11 @@
         <div class="ad-wrapper">
             <button class="close-ad-btn" id="closeAdX">&times;</button>
             
-            <a href="https://www.studio-scalia.it" target="_blank">
-                <img src="banner pubblicitario.png" alt="Pubblicità Studio Scalia" class="ad-image">
+            <a href="https://www.studio-scalia.it" target="_blank" class="ad-box-content">
+                <img src="Logo Studio Scalia ridotto web.png" alt="Studio Scalia Logo" class="ad-logo-image">
+                <div class="ad-text-callout">
+                    Pubblicizza qui la tua azienda o il tuo evento. Contattaci per maggiori info!
+                </div>
             </a>
             
             <button class="back-to-menu-btn" id="closeAdBtn">Continua a leggere il menu</button>
@@ -329,7 +355,7 @@
                 adOverlay.classList.remove('show');
             }
 
-            // Il timer da 20 secondi è attivo e si resetta ad ogni avvio
+            // Il timer da 20 secondi scatta ad ogni apertura/aggiornamento di pagina
             setTimeout(showAd, 20000);
 
             closeAdX.addEventListener('click', closeAd);
